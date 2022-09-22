@@ -19,6 +19,7 @@ const NoteDetail = ({ id, title, body, createdAt, archived }) => {
         <ActionButton id={id} title={archived ? "Unarchive" : "Archive"} />
         <ActionButton id={id} title="Delete" />
       </div>
+
       <h1 className="text-5xl font-bold">{title}</h1>
       <span className="block mt-2 mb-12">{showFormattedDate(createdAt)}</span>
       <p>{body}</p>
@@ -27,10 +28,10 @@ const NoteDetail = ({ id, title, body, createdAt, archived }) => {
 };
 
 NoteDetail.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  title: PropTypes.string,
+  body: PropTypes.string,
+  createdAt: PropTypes.string,
   archived: PropTypes.bool,
 };
 

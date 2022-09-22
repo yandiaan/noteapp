@@ -19,7 +19,7 @@ function App() {
           <Route path="/archive" element={<ArchivePage />} />
           <Route path="/notes/:id" element={<DetailPage />} />
           <Route path="/notes/new" element={<NewNotePage />} />
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="/notes/*" element={<PageNotFound />} />
         </Routes>
       </section>
     </main>

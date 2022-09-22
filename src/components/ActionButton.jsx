@@ -40,7 +40,7 @@ const ActionButton = ({ id, title }) => {
 };
 
 ActionButton.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 

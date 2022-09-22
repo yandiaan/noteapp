@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import NoteDetail from "../components/NoteDetail";
 import { getNote } from "../utils/local-data";
+import PageNotFound from "./PageNotFound";
 
 function DetailPageWrapper() {
   const { id } = useParams();
@@ -18,11 +19,15 @@ class DetailPage extends React.Component {
   }
 
   render() {
-    return (
-      <section className="flex justify-center items-center h-screen">
-        <NoteDetail {...this.state.notes} />
-      </section>
-    );
+    if (this.state.notes !== undefined) {
+      return (
+        <section className="flex justify-center items-center h-screen">
+          <NoteDetail {...this.state.notes} />
+          {console.log(this.state.notes.id)}
+        </section>
+      );
+    }
+    return <PageNotFound />;
   }
 }
 
