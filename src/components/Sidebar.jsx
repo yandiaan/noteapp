@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NavButton from "./NavButton";
 
-export default function Sidebar() {
+const Sidebar = () => {
   const datas = [
     {
       title: "Home",
@@ -40,4 +40,6 @@ export default function Sidebar() {
       </div>
     </>
   );
-}
+};
+
+export default Sidebar;

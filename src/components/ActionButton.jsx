@@ -11,7 +11,7 @@ const ActionButton = ({ id, title }) => {
     if (title === "Delete") {
       deleteNote(id);
       navigate("/");
-    } else {
+    } else if (title === "Archive") {
       let confirmArchive = window.confirm("pindahkan catatan ke arsip?");
       if (confirmArchive) {
         archiveNote(id);

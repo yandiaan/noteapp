@@ -1,81 +1,51 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addNote } from "../utils/local-data";
 
 const InputNotesWrapper = () => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const navigate = useNavigate();
 
-  return <InputNotes navigate={navigate} />;
-};
+  const titleHandler = (e) => {
+    setTitle(e.target.value);
+  };
 
-class InputNotes extends Component {
-  constructor(props) {
-    super(props);
+  const bodyHandler = (e) => {
+    setBody(e.target.value);
+  };
 
-    this.state = {
-      title: "",
-      body: "",
-    };
+  const handleInput = () => {
+    addNote({ title, body });
 
-    this.titleHandler = this.titleHandler.bind(this);
-    this.bodyHandler = this.bodyHandler.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-  }
+    alert(`Catatan ${title} Berhasil ditambahkan`);
+    navigate("/");
+  };
 
-  titleHandler(e) {
-    this.setState(() => {
-      return {
-        title: e.target.innerHTML,
-      };
-    });
-  }
-
-  bodyHandler(e) {
-    this.setState(() => {
-      return {
-        body: e.target.innerHTML,
-      };
-    });
-  }
-
-  handleInput() {
-    addNote(this.state);
-
-    alert(`Catatan ${this.state.title} Berhasil ditambahkan`);
-    this.props.navigate("/");
-  }
-
-  render() {
-    return (
-      <>
-        <div
-          className="border-2 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
-          data-placeholder="Judul Catatan..."
-          contentEditable
-          onInput={this.titleHandler}
-        />
-        <div
-          className="border-2 h-80 mt-4 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
-          data-placeholder="Isi Catatan..."
-          contentEditable
-          onInput={this.bodyHandler}
-        />
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={this.handleInput}
-            className="w-full py-2 bg-primary hover:bg-secondary transition-all rounded-lg hover:scale-y-110 active:scale-95 text-neutral"
-          >
-            Submit
-          </button>
-        </div>
-      </>
-    );
-  }
-}
-
-InputNotes.propTypes = {
-  navigate: PropTypes.func.isRequired,
+  return (
+    <>
+      <div
+        className="border-2 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
+        data-placeholder="Judul Catatan..."
+        contentEditable
+        onInput={titleHandler}
+      />
+      <div
+        className="border-2 h-80 mt-4 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
+        data-placeholder="Isi Catatan..."
+        contentEditable
+        onInput={bodyHandler}
+      />
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={handleInput}
+          className="w-full py-2 bg-primary hover:bg-secondary transition-all rounded-lg hover:scale-y-110 active:scale-95 text-neutral"
+        >
+          Submit
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default InputNotesWrapper;
