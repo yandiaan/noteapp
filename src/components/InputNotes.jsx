@@ -8,11 +8,11 @@ const InputNotesWrapper = () => {
   const navigate = useNavigate();
 
   const titleHandler = (e) => {
-    setTitle(e.target.value);
+    setTitle(e.target.innerHTML);
   };
 
   const bodyHandler = (e) => {
-    setBody(e.target.value);
+    setBody(e.target.innerHTML);
   };
 
   const handleInput = () => {

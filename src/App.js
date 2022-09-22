@@ -10,16 +10,41 @@ import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 
 function App() {
+  const route = [
+    {
+      path: "/",
+      component: <HomePage />,
+    },
+    {
+      path: "/notes/:id",
+      component: <DetailPage />,
+    },
+    {
+      path: "/notes/new",
+      component: <NewNotePage />,
+    },
+    {
+      path: "/archive",
+      component: <ArchivePage />,
+    },
+    {
+      path: "*",
+      component: <PageNotFound />,
+    },
+    {
+      path: "/notes/*",
+      component: <PageNotFound />,
+    },
+  ];
+
   return (
     <main className="flex">
       <Sidebar />
       <section className="ml-auto w-3/4 h-full">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/archive" element={<ArchivePage />} />
-          <Route path="/notes/:id" element={<DetailPage />} />
-          <Route path="/notes/new" element={<NewNotePage />} />
-          <Route path="/notes/*" element={<PageNotFound />} />
+          {route.map(({ path, component }) => {
+            return <Route key={path} path={path} element={component} />;
+          })}
         </Routes>
       </section>
     </main>
