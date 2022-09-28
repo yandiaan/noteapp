@@ -5,6 +5,7 @@ import DetailPage from "./pages/DetailPage";
 import NewNotePage from "./pages/NewNotePage";
 import ArchivePage from "./pages/ArchivePage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import PageNotFound from "./pages/PageNotFound";
 
 import { Routes, Route } from "react-router-dom";
@@ -47,13 +48,13 @@ function App() {
       setAuthedUser(data);
     };
     fetchData();
-  }, [authedUser]);
+  });
 
   if (authedUser === null) {
     return (
       <Routes>
         <Route path="/*" element={<LoginPage auth={setAuthedUser} />} />
-        {/* <Route path="/register" element={<RegisterPage />} /> */}
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     );
   } else {
