@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addNote } from "../utils/local-data";
+import { addNote } from "../utils/network-data";
 
 const InputNotesWrapper = () => {
   const [title, setTitle] = useState("");
@@ -16,8 +16,9 @@ const InputNotesWrapper = () => {
   };
 
   const handleInput = () => {
-    addNote({ title, body });
-
+    addNote({ title, body }).catch((error) => {
+      console.log(error);
+    });
     alert(`Catatan ${title} Berhasil ditambahkan`);
     navigate("/");
   };
