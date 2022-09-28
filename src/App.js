@@ -43,11 +43,11 @@ function App() {
   ];
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAtiveUser = async () => {
       const { data } = await getUserLogged();
       setAuthedUser(data);
     };
-    fetchData();
+    fetchAtiveUser();
   });
 
   if (authedUser === null) {

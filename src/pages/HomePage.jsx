@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { getActiveNotes } from "../utils/local-data";
+import { getActiveNotes } from "../utils/network-data";
 
 import NoteSection from "../components/NoteSection";
 import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
-  const [notes] = useState(getActiveNotes());
+  const [notes, setNotes] = useState([]);
   const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    getActiveNotes().then(({ data }) => {
+      setNotes(data);
+    });
+  }, [notes]);
 
   const onKeywordChangeHandler = (keyword) => {
     setKeyword(keyword);
