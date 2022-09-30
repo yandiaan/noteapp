@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { getArchivedNotes } from "../utils/local-data";
+import { getArchivedNotes } from "../utils/network-data";
 
 import NoteSection from "../components/NoteSection";
 import SearchBar from "../components/SearchBar";
 
 const ArchivePage = () => {
-  const [notes] = useState(getArchivedNotes());
+  const [notes, setNotes] = useState([]);
   const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    getArchivedNotes().then(({ data }) => {
+      setNotes(data);
+    });
+  }, [notes]);
 
   const onKeywordChangeHandler = (keyword) => {
     setKeyword(keyword);
