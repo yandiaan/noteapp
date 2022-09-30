@@ -7,7 +7,7 @@ import { showFormattedDate } from "../utils/index";
 
 const NoteCard = ({ id, title, body, createdAt }) => {
   return (
-    <div className="py-4 w-64 px-6 rounded-xl bg-neutral drop-shadow-lg flex flex-col justify-between">
+    <div className="py-4 w-64 px-6 rounded-xl bg-neutral dark:bg-tertiary drop-shadow-lg flex flex-col justify-between">
       <div>
         <Link
           to={`/notes/${id}`}

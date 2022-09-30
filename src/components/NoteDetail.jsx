@@ -8,7 +8,7 @@ import ActionButton from "./ActionButton";
 
 const NoteDetail = ({ id, title, body, createdAt, archived }) => {
   return (
-    <div className="relative mx-12 rounded-xl bg-neutral w-[75%] drop-shadow-lg py-32 px-12">
+    <div className="relative mx-12 rounded-xl bg-neutral dark:bg-tertiary w-[75%] drop-shadow-lg py-32 px-12">
       <Link
         to="/"
         className="absolute top-4 hover:text-tertiary hover:scale-110 active:scale-90 transition-all text-7xl"

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import InputAuth from "../components/InputAuth";
 import { getUserLogged, login, putAccessToken } from "../utils/network-data";
 
@@ -47,8 +48,14 @@ const LoginPage = ({ auth }) => {
   return (
     <div className="flex">
       <div className="w-full h-screen flex flex-col justify-center items-center py-12">
-        <div className="bg-neutral h-full w-1/2 shadow-lg rounded-2xl text-center py-12 px-16">
+        <div className="bg-neutral dark:bg-tertiary h-full w-1/2 shadow-lg rounded-2xl text-center py-12 px-16">
           <h1 className="font-bold text-2xl">Hey Dude! U Should Login!!</h1>
+          <h2 className="mt-2">
+            don't have an account?
+            <Link to="/register" className="text-secondary underline ml-2">
+              Register Now
+            </Link>
+          </h2>
           <form onSubmit={handleSubmit}>
             {dataInput.map(({ key, type, placeholder, handler }) => {
               return (

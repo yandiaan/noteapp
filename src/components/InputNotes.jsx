@@ -46,7 +46,7 @@ const InputNotesWrapper = () => {
       <div className="flex justify-center mt-4">
         <button
           onClick={handleInput}
-          className="w-full py-2 bg-primary hover:bg-secondary transition-all rounded-lg hover:scale-y-110 active:scale-95 text-neutral"
+          className="w-full py-2 bg-primary dark:bg-secondary hover:bg-secondary transition-all rounded-lg hover:scale-y-110 active:scale-95 text-neutral"
         >
           Submit
         </button>
