@@ -3,30 +3,50 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import NavButton from "./NavButton";
 
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import {
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+  MdGTranslate,
+} from "react-icons/md";
 
 import ThemeContext from "../context/ThemeContext";
+import LocaleContext from "../context/LocaleContext";
 
 const Sidebar = () => {
-  const { theme, toggleContext } = useContext(ThemeContext);
+  const { theme, toggleThemeContext } = useContext(ThemeContext);
+
+  const { locale, toggleLocaleContext } = useContext(LocaleContext);
+
   const datas = [
     {
-      title: "Home",
+      title: {
+        en: "Home",
+        id: "Beranda",
+      },
       path: "/",
     },
     {
-      title: "Create a Note",
+      title: {
+        en: "Create a Note",
+        id: "Buat Catatan Baru",
+      },
       path: "notes/new",
     },
     {
-      title: "Archive",
+      title: {
+        en: "Archive",
+        id: "Arsip",
+      },
       path: "archive",
     },
     {
-      title: "Logout",
+      title: {
+        en: "Logout",
+        id: "Keluar",
+      },
       path: "#",
       handler() {
-        alert("Logout completed");
+        alert(locale === "en" ? "Logout completed" : "Berhasil Keluar");
         localStorage.removeItem("accessToken");
         window.location.reload();
       },
@@ -43,17 +63,23 @@ const Sidebar = () => {
           Yan Notes
         </Link>
         <div className="flex mb-12 gap-12">
-          <button onClick={toggleContext} className="text-4xl">
+          <button onClick={toggleThemeContext} className="text-4xl">
             {theme === "light" ? <MdOutlineDarkMode /> : <MdOutlineLightMode />}
           </button>
-          <button>{theme}</button>
+          <button
+            onClick={toggleLocaleContext}
+            className="text-2xl gap-1 flex items-center"
+          >
+            <MdGTranslate />
+            {locale === "en" ? "en" : "id"}
+          </button>
         </div>
         <ul className="text-center w-64">
           {datas.map((item, index) => {
             return (
               <li key={index} className="w-full">
                 <NavButton
-                  title={item.title}
+                  title={locale === "en" ? item.title.en : item.title.id}
                   path={item.path}
                   handler={item.handler}
                 />

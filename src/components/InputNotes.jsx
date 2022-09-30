@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import LocaleContext from "../context/LocaleContext";
 import { addNote } from "../utils/network-data";
 
 const InputNotesWrapper = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
+  const { locale } = useContext(LocaleContext);
+
   const navigate = useNavigate();
 
   const titleHandler = (e) => {
@@ -17,12 +21,22 @@ const InputNotesWrapper = () => {
 
   const handleInput = () => {
     try {
-      if (title === "") throw new Error("Judul Catatan Kosong");
-      if (body === "") throw new Error("Isi Catatan Kosong");
+      if (title === "")
+        throw new Error(
+          locale === "en" ? "Title is Empty" : "Judul Catatan Kosong"
+        );
+      if (body === "")
+        throw new Error(
+          locale === "en" ? "Body is Empty" : "Isi Catatan Kosong"
+        );
       addNote({ title, body }).catch((error) => {
-        console.log(error);
+        alert(error);
       });
-      alert(`Catatan ${title} Berhasil ditambahkan`);
+      alert(
+        locale === "en"
+          ? `Note ${title} success to add`
+          : `Catatan ${title} Berhasil ditambahkan`
+      );
       navigate("/");
     } catch (e) {
       alert(e);
@@ -32,14 +46,16 @@ const InputNotesWrapper = () => {
   return (
     <>
       <div
-        className="border-2 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
-        data-placeholder="Judul Catatan..."
+        className="border-2 border-secondary dark:text-black cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
+        data-placeholder={
+          locale === "en" ? "Note's Title..." : "Judul Catatan..."
+        }
         contentEditable
         onInput={titleHandler}
       />
       <div
-        className="border-2 h-80 mt-4 border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
-        data-placeholder="Isi Catatan..."
+        className="border-2 h-80 mt-4 dark:text-black border-secondary cursor-text py-2 px-4 rounded-lg bg-tertiary focus:bg-neutral"
+        data-placeholder={locale === "en" ? "Note's Body..." : "Isi Catatan..."}
         contentEditable
         onInput={bodyHandler}
       />

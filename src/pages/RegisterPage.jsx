@@ -1,21 +1,28 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import InputAuth from "../components/InputAuth";
 import { register } from "../utils/network-data";
+import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 
-import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import {
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+  MdGTranslate,
+} from "react-icons/md";
 
 import ThemeContext from "../context/ThemeContext";
+import LocaleContext from "../context/LocaleContext";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, onNameChange] = useInput("");
+  const [email, onEmailChange] = useInput("");
+  const [password, onPasswordChange] = useInput("");
+  const [confirmPassword, onConfirmPasswordChange] = useInput("");
   const navigate = useNavigate("");
 
-  const { theme, toggleContext } = useContext(ThemeContext);
+  const { theme, toggleThemeContext } = useContext(ThemeContext);
+  const { locale, toggleLocaleContext } = useContext(LocaleContext);
 
   const dataInput = [
     {
@@ -25,9 +32,7 @@ const RegisterPage = () => {
         en: "enter your full name",
         id: "masukan nama lengkap anda",
       },
-      handler(e) {
-        setName(e.target.value);
-      },
+      handler: onNameChange,
     },
     {
       key: "email",
@@ -36,9 +41,7 @@ const RegisterPage = () => {
         en: "enter your email address",
         id: "masukan alamat email anda",
       },
-      handler(e) {
-        setEmail(e.target.value);
-      },
+      handler: onEmailChange,
     },
     {
       key: "password",
@@ -47,9 +50,7 @@ const RegisterPage = () => {
         en: "enter your password",
         id: "masukan kata sandi anda",
       },
-      handler(e) {
-        setPassword(e.target.value);
-      },
+      handler: onPasswordChange,
     },
     {
       key: "confirmpassword",
@@ -58,11 +59,7 @@ const RegisterPage = () => {
         en: "confirm your password",
         id: "konfirmasi kata sandi anda",
       },
-      handler(e) {
-        password === e.target.value
-          ? setConfirmPassword(e.target.value)
-          : setConfirmPassword(false);
-      },
+      handler: onConfirmPasswordChange,
     },
   ];
 
@@ -70,14 +67,20 @@ const RegisterPage = () => {
     e.preventDefault();
     console.log(password + " and " + confirmPassword);
     if (confirmPassword === false) {
-      alert("Password and confirm password must be same!");
+      alert(
+        locale === "en"
+          ? "Password and confirm password must be same!"
+          : "Password dan konfirmasi password harus sama!"
+      );
     } else {
       const { error } = await register({ name, email, password });
       if (!error) {
         navigate("/");
-        alert("Register successful");
+        alert(
+          locale === "en" ? "Register successful" : "Berhasil membuat akun"
+        );
       } else {
-        alert("Register failed");
+        alert(locale === "en" ? "Register failed" : "Gagal membuat akun");
       }
     }
   };
@@ -88,7 +91,7 @@ const RegisterPage = () => {
         <div className="bg-neutral dark:bg-tertiary w-1/2 shadow-lg rounded-2xl text-center py-12 px-16">
           <div className="relative mb-12 gap-12">
             <button
-              onClick={toggleContext}
+              onClick={toggleThemeContext}
               className="text-4xl absolute top-0 left-0"
             >
               {theme === "light" ? (
@@ -97,13 +100,21 @@ const RegisterPage = () => {
                 <MdOutlineLightMode />
               )}
             </button>
-            <button className="absolute top-0 right-0">{theme}</button>
+            <button
+              onClick={toggleLocaleContext}
+              className="text-2xl gap-1 flex items-center absolute top-0 right-0"
+            >
+              <MdGTranslate />
+              {locale === "en" ? "en" : "id"}
+            </button>
           </div>
-          <h1 className="font-bold text-2xl">Register an Account!!</h1>
+          <h1 className="font-bold text-2xl">
+            {locale === "en" ? "Register an Account!!" : "Buat akun baru!!"}
+          </h1>
           <h2 className="mt-2">
-            have an account?
+            {locale === "en" ? "have an account?" : "sudah punya akun?"}
             <Link to="/" className="text-secondary underline ml-2">
-              Login Now
+              {locale === "en" ? "Login Now" : "Masuk Sekarang"}
             </Link>
           </h2>
 
@@ -113,7 +124,9 @@ const RegisterPage = () => {
                 <InputAuth
                   key={key}
                   type={type}
-                  placeholder={placeholder.en}
+                  placeholder={
+                    locale === "en" ? placeholder.en : placeholder.id
+                  }
                   handler={handler}
                 />
               );
@@ -122,7 +135,7 @@ const RegisterPage = () => {
               type="submit"
               className="bg-primary py-2 px-8 mt-12 rounded-xl hover:bg-secondary text-neutral"
             >
-              Login
+              {locale === "en" ? "Register" : "Daftar"}
             </button>
           </form>
         </div>

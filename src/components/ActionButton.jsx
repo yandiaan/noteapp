@@ -1,46 +1,61 @@
-import React from "react";
+import React, { useContext } from "react";
 import { deleteNote, archiveNote, unarchiveNote } from "../utils/network-data";
 import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
+import LocaleContext from "../context/LocaleContext";
 
 const ActionButton = ({ id, title }) => {
   const navigate = useNavigate();
 
+  const { locale } = useContext(LocaleContext);
+
   const handleAction = (e) => {
     switch (e.target.getAttribute("data-action")) {
-      case "Delete":
+      case ("Delete", "Hapus"):
         deleteNote(id)
           .then(() => {
-            alert("delete successful");
+            alert(locale === "en" ? "delete success" : "sukses hapus catatan");
             navigate("/");
           })
           .catch(() => {
-            alert("delete failed");
+            alert(locale === "en" ? "delete failed" : "gagal hapus catatan");
           });
         break;
-      case "Archive":
+      case ("Archive", "Arsipkan"):
         archiveNote(id)
           .then(() => {
-            alert("note archived");
+            alert(locale === "en" ? "note archived" : "catatan diarsipkan");
             navigate("/");
           })
           .catch(() => {
-            alert("failed to archive");
+            alert(
+              locale === "en"
+                ? "failed to archive"
+                : "gagal mengarsipkan catatan"
+            );
           });
         break;
-      case "Unarchive":
+      case ("Unarchive", "Keluarkan"):
         unarchiveNote(id)
           .then(() => {
-            alert("note unarchived");
+            alert(
+              locale === "en"
+                ? "note unarchive"
+                : "catatan dikeluarkan dari arsip"
+            );
             navigate("/");
           })
           .catch(() => {
-            alert("failed to unarchive");
+            alert(
+              locale === "en"
+                ? "failed to unarchive"
+                : "gagal mengeluarkan catatan"
+            );
           });
         break;
       default:
-        alert("Nothing to act");
+        alert(locale === "en" ? "nothing to act" : "tidak terjadi apa apa");
         break;
     }
   };
@@ -50,7 +65,7 @@ const ActionButton = ({ id, title }) => {
       data-action={title}
       onClick={handleAction}
       className={`${
-        title === "Delete"
+        title === "Delete" || title === "Hapus"
           ? "bg-red-700 hover:bg-red-900 rounded-tl-none rounded-bl-none"
           : "bg-primary hover:bg-secondary rounded-tr-none rounded-br-none"
       } text-white py-2 px-4 rounded-xl w-1/2`}

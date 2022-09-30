@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { getActiveNotes } from "../utils/network-data";
 
 import NoteSection from "../components/NoteSection";
 import SearchBar from "../components/SearchBar";
+import LocaleContext from "../context/LocaleContext";
 
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
   const [keyword, setKeyword] = useState("");
+
+  const { locale } = useContext(LocaleContext);
 
   useEffect(() => {
     getActiveNotes().then(({ data }) => {
@@ -26,10 +29,12 @@ const HomePage = () => {
   return (
     <>
       <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
-      <h1 className="text-4xl text-center mb-12 font-bold">Active Note</h1>
+      <h1 className="text-4xl text-center mb-12 font-bold">
+        {locale === "en" ? "Active Note" : "Catatan Aktif"}
+      </h1>
       {filteredNotes.length < 1 ? (
         <h1 className="text-center text-secondary text-xl font-semibold bg-neutral py-8 mb-80 drop-shadow-lg rounded-lg w-2/4 mx-auto">
-          Tidak ada data
+          {locale === "en" ? "Nothing's here" : "Tidak ada data"}
         </h1>
       ) : (
         <NoteSection notes={filteredNotes} />

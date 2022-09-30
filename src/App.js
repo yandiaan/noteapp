@@ -14,12 +14,13 @@ import Sidebar from "./components/Sidebar";
 import { getUserLogged } from "./utils/network-data";
 
 import { ThemeProvider } from "./context/ThemeContext";
+import { LocaleProvider } from "./context/LocaleContext";
 
 function App() {
   const [authedUser, setAuthedUser] = useState(null);
   const [themeContext, setThemeContext] = useState({
     theme: localStorage.getItem("theme") || "light",
-    toggleContext() {
+    toggleThemeContext() {
       setThemeContext((prevState) => {
         let newTheme = prevState.theme === "light" ? "dark" : "light";
         localStorage.setItem("theme", newTheme);
@@ -30,6 +31,21 @@ function App() {
       });
     },
   });
+
+  const [localeContext, setLocaleContext] = useState({
+    locale: localStorage.getItem("locale") || "en",
+    toggleLocaleContext() {
+      setLocaleContext((prevState) => {
+        let newLocale = prevState.locale === "en" ? "id" : "en";
+        localStorage.setItem("locale", newLocale);
+        return {
+          ...prevState,
+          locale: newLocale,
+        };
+      });
+    },
+  });
+
   const route = [
     {
       path: "/",
@@ -74,27 +90,31 @@ function App() {
   if (authedUser === null) {
     return (
       <ThemeProvider value={themeContext}>
-        <main className="dark:bg-secondary bg-tertiary min-h-screen">
-          <Routes>
-            <Route path="/*" element={<LoginPage auth={setAuthedUser} />} />
-            <Route path="/register" element={<RegisterPage />} />
-          </Routes>
-        </main>
+        <LocaleProvider value={localeContext}>
+          <main className="dark:bg-secondary bg-tertiary min-h-screen">
+            <Routes>
+              <Route path="/*" element={<LoginPage auth={setAuthedUser} />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Routes>
+          </main>
+        </LocaleProvider>
       </ThemeProvider>
     );
   } else {
     return (
       <ThemeProvider value={themeContext}>
-        <main className="flex dark:bg-secondary bg-tertiary min-h-screen">
-          <Sidebar />
-          <section className="ml-auto w-3/4 h-full">
-            <Routes>
-              {route.map(({ path, component }) => {
-                return <Route key={path} path={path} element={component} />;
-              })}
-            </Routes>
-          </section>
-        </main>
+        <LocaleProvider value={localeContext}>
+          <main className="flex dark:bg-secondary bg-tertiary min-h-screen">
+            <Sidebar />
+            <section className="ml-auto w-3/4 h-full">
+              <Routes>
+                {route.map(({ path, component }) => {
+                  return <Route key={path} path={path} element={component} />;
+                })}
+              </Routes>
+            </section>
+          </main>
+        </LocaleProvider>
       </ThemeProvider>
     );
   }

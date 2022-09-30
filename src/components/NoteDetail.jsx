@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 import { showFormattedDate } from "../utils";
 import ActionButton from "./ActionButton";
+import LocaleContext from "../context/LocaleContext";
 
 const NoteDetail = ({ id, title, body, createdAt, archived }) => {
+  const { locale } = useContext(LocaleContext);
+
   return (
     <div className="relative mx-12 rounded-xl bg-neutral dark:bg-tertiary w-[75%] drop-shadow-lg py-32 px-12">
       <Link
@@ -16,12 +19,25 @@ const NoteDetail = ({ id, title, body, createdAt, archived }) => {
         &larr;
       </Link>
       <div className="absolute right-12 top-10">
-        <ActionButton id={id} title={archived ? "Unarchive" : "Archive"} />
-        <ActionButton id={id} title="Delete" />
+        <ActionButton
+          id={id}
+          title={
+            locale === "en"
+              ? archived
+                ? "Unarchive"
+                : "Archive"
+              : archived
+              ? "Keluarkan"
+              : "Arsipkan"
+          }
+        />
+        <ActionButton id={id} title={locale === "en" ? "Delete" : "Hapus"} />
       </div>
 
       <h1 className="text-5xl font-bold">{title}</h1>
-      <span className="block mt-2 mb-12">{showFormattedDate(createdAt)}</span>
+      <span className="block mt-2 mb-12">
+        {showFormattedDate(createdAt, locale)}
+      </span>
       <p>{body}</p>
     </div>
   );

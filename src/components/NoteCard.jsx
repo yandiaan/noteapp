@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 import { showFormattedDate } from "../utils/index";
+import LocaleContext from "../context/LocaleContext";
 
 const NoteCard = ({ id, title, body, createdAt }) => {
+  const { locale } = useContext(LocaleContext);
   return (
     <div className="py-4 w-64 px-6 rounded-xl bg-neutral dark:bg-tertiary drop-shadow-lg flex flex-col justify-between">
       <div>
@@ -16,7 +18,7 @@ const NoteCard = ({ id, title, body, createdAt }) => {
           {title}
         </Link>
         <span className="italic mb-4 block">
-          {showFormattedDate(createdAt)}
+          {showFormattedDate(createdAt, locale)}
         </span>
         <p>{body.length <= 100 ? body : `${body.substring(0, 100)}...`}</p>
       </div>
@@ -25,7 +27,7 @@ const NoteCard = ({ id, title, body, createdAt }) => {
           to={`/notes/${id}`}
           className=" mt-4 font-bold hover:underline block"
         >
-          Read More
+          {locale === "en" ? "Read More" : "Baca Selengkapnya"}
         </Link>
       </div>
     </div>

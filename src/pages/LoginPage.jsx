@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import InputAuth from "../components/InputAuth";
 import { getUserLogged, login, putAccessToken } from "../utils/network-data";
+import useInput from "../hooks/useInput";
+
+import {
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+  MdGTranslate,
+} from "react-icons/md";
+
+import ThemeContext from "../context/ThemeContext";
+import LocaleContext from "../context/LocaleContext";
 
 const LoginPage = ({ auth }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, onEmailChange] = useInput("");
+  const [password, onPasswordChange] = useInput("");
+
+  const { theme, toggleThemeContext } = useContext(ThemeContext);
+  const { locale, toggleLocaleContext } = useContext(LocaleContext);
 
   const dataInput = [
     {
@@ -15,9 +28,7 @@ const LoginPage = ({ auth }) => {
         en: "enter your email address",
         id: "masukan alamat email anda",
       },
-      handler(e) {
-        setEmail(e.target.value);
-      },
+      handler: onEmailChange,
     },
     {
       key: "password",
@@ -26,9 +37,7 @@ const LoginPage = ({ auth }) => {
         en: "enter your password",
         id: "masukan kata sandi anda",
       },
-      handler(e) {
-        setPassword(e.target.value);
-      },
+      handler: onPasswordChange,
     },
   ];
 
@@ -39,9 +48,9 @@ const LoginPage = ({ auth }) => {
     if (!error) {
       putAccessToken(data.accessToken);
       auth(user);
-      alert("Login successful");
+      alert(locale === "en" ? "Login successful" : "Login Berhasil");
     } else {
-      alert("Login failed");
+      alert(locale === "en" ? "Login failed" : "Login gagal");
     }
   };
 
@@ -49,11 +58,34 @@ const LoginPage = ({ auth }) => {
     <div className="flex">
       <div className="w-full h-screen flex flex-col justify-center items-center py-12">
         <div className="bg-neutral dark:bg-tertiary h-full w-1/2 shadow-lg rounded-2xl text-center py-12 px-16">
-          <h1 className="font-bold text-2xl">Hey Dude! U Should Login!!</h1>
+          <div className="relative mb-12 gap-12">
+            <button
+              onClick={toggleThemeContext}
+              className="text-4xl absolute top-0 left-0"
+            >
+              {theme === "light" ? (
+                <MdOutlineDarkMode />
+              ) : (
+                <MdOutlineLightMode />
+              )}
+            </button>
+            <button
+              onClick={toggleLocaleContext}
+              className="text-2xl gap-1 flex items-center absolute top-0 right-0"
+            >
+              <MdGTranslate />
+              {locale === "en" ? "en" : "id"}
+            </button>
+          </div>
+          <h1 className="font-bold text-2xl">
+            {locale === "en"
+              ? "Hey Dude! U Should Login!!"
+              : "Hey, Kamu harus login dulu!!"}
+          </h1>
           <h2 className="mt-2">
-            don't have an account?
+            {locale === "en" ? "don't have an account?" : "Tidak punya akun?"}
             <Link to="/register" className="text-secondary underline ml-2">
-              Register Now
+              {locale === "en" ? "Register Now" : "Daftar Sekarang"}
             </Link>
           </h2>
           <form onSubmit={handleSubmit}>
@@ -62,7 +94,9 @@ const LoginPage = ({ auth }) => {
                 <InputAuth
                   key={key}
                   type={type}
-                  placeholder={placeholder.en}
+                  placeholder={
+                    locale === "en" ? placeholder.en : placeholder.id
+                  }
                   handler={handler}
                 />
               );
@@ -71,7 +105,7 @@ const LoginPage = ({ auth }) => {
               type="submit"
               className="bg-primary py-2 px-8 mt-12 rounded-xl hover:bg-secondary text-neutral"
             >
-              Login
+              {locale === "en" ? "Login" : "Masuk"}
             </button>
           </form>
         </div>
