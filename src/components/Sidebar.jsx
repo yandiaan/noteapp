@@ -17,6 +17,15 @@ const Sidebar = () => {
       title: "Archive",
       path: "archive",
     },
+    {
+      title: "Logout",
+      path: "#",
+      handler() {
+        alert("Logout completed");
+        localStorage.removeItem("accessToken");
+        window.location.reload();
+      },
+    },
   ];
 
   return (
@@ -32,7 +41,11 @@ const Sidebar = () => {
           {datas.map((item, index) => {
             return (
               <li key={index} className="w-full">
-                <NavButton title={item.title} path={item.path} />
+                <NavButton
+                  title={item.title}
+                  path={item.path}
+                  handler={item.handler}
+                />
               </li>
             );
           })}
