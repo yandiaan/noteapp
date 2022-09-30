@@ -7,19 +7,19 @@ import PropTypes from "prop-types";
 const ActionButton = ({ id, title }) => {
   const navigate = useNavigate();
 
-  const handleAction = () => {
-    if (title === "Delete") {
-      deleteNote(id)
-        .then(() => {
-          alert("delete successful");
-          navigate("/");
-        })
-        .catch(() => {
-          alert("delete failed");
-        });
-    } else if (title === "Archive") {
-      let confirmArchive = window.confirm("pindahkan catatan ke arsip?");
-      if (confirmArchive) {
+  const handleAction = (e) => {
+    switch (e.target.getAttribute("data-action")) {
+      case "Delete":
+        deleteNote(id)
+          .then(() => {
+            alert("delete successful");
+            navigate("/");
+          })
+          .catch(() => {
+            alert("delete failed");
+          });
+        break;
+      case "Archive":
         archiveNote(id)
           .then(() => {
             alert("note archived");
@@ -28,18 +28,26 @@ const ActionButton = ({ id, title }) => {
           .catch(() => {
             alert("failed to archive");
           });
-        let confirmNavigate = window.confirm("mau beralih ke halaman arsip?");
-        if (confirmNavigate) {
-          navigate("/archive");
-        } else {
-          navigate("/");
-        }
-      }
+        break;
+      case "Unarchive":
+        unarchiveNote(id)
+          .then(() => {
+            alert("note unarchived");
+            navigate("/");
+          })
+          .catch(() => {
+            alert("failed to unarchive");
+          });
+        break;
+      default:
+        alert("Nothing to act");
+        break;
     }
   };
 
   return (
     <button
+      data-action={title}
       onClick={handleAction}
       className={`${
         title === "Delete"

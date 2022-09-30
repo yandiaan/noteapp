@@ -27,9 +27,9 @@ const HomePage = () => {
     <>
       <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
       <h1 className="text-4xl text-center mb-12 font-bold">Active Note</h1>
-      {notes.length < 1 ? (
+      {filteredNotes.length < 1 ? (
         <h1 className="text-center text-secondary text-xl font-semibold bg-neutral py-8 mb-80 drop-shadow-lg rounded-lg w-2/4 mx-auto">
-          Catatan Aktif Kosong
+          Tidak ada data
         </h1>
       ) : (
         <NoteSection notes={filteredNotes} />
