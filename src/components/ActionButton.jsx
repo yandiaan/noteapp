@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteNote, archiveNote } from "../utils/local-data";
+import { deleteNote, archiveNote, unarchiveNote } from "../utils/network-data";
 import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -9,12 +9,25 @@ const ActionButton = ({ id, title }) => {
 
   const handleAction = () => {
     if (title === "Delete") {
-      deleteNote(id);
-      navigate("/");
+      deleteNote(id)
+        .then(() => {
+          alert("delete successful");
+          navigate("/");
+        })
+        .catch(() => {
+          alert("delete failed");
+        });
     } else if (title === "Archive") {
       let confirmArchive = window.confirm("pindahkan catatan ke arsip?");
       if (confirmArchive) {
-        archiveNote(id);
+        archiveNote(id)
+          .then(() => {
+            alert("note archived");
+            navigate("/");
+          })
+          .catch(() => {
+            alert("failed to archive");
+          });
         let confirmNavigate = window.confirm("mau beralih ke halaman arsip?");
         if (confirmNavigate) {
           navigate("/archive");
