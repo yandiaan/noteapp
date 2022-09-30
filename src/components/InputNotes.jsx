@@ -16,11 +16,17 @@ const InputNotesWrapper = () => {
   };
 
   const handleInput = () => {
-    addNote({ title, body }).catch((error) => {
-      console.log(error);
-    });
-    alert(`Catatan ${title} Berhasil ditambahkan`);
-    navigate("/");
+    try {
+      if (title === "") throw new Error("Judul Catatan Kosong");
+      if (body === "") throw new Error("Isi Catatan Kosong");
+      addNote({ title, body }).catch((error) => {
+        console.log(error);
+      });
+      alert(`Catatan ${title} Berhasil ditambahkan`);
+      navigate("/");
+    } catch (e) {
+      alert(e);
+    }
   };
 
   return (
