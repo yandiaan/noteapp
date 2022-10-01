@@ -18,6 +18,7 @@ const NavButton = ({ title, path, handler }) => {
 NavButton.propTypes = {
   title: PropTypes.string,
   path: PropTypes.string,
+  handler: PropTypes.func,
 };
 
 export default NavButton;

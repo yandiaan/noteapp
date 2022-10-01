@@ -19,7 +19,7 @@ const ArchivePage = () => {
       setNotes(data);
       setLoading(false);
     });
-  }, [notes]);
+  }, []);
 
   const onKeywordChangeHandler = (keyword) => {
     setKeyword(keyword);

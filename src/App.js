@@ -79,13 +79,15 @@ function App() {
     } else {
       document.body.classList.add("dark");
     }
+  }, [themeContext.theme]);
 
+  useEffect(() => {
     const fetchAtiveUser = async () => {
       const { data } = await getUserLogged();
       setAuthedUser(data);
     };
     fetchAtiveUser();
-  });
+  }, []);
 
   if (authedUser === null) {
     return (

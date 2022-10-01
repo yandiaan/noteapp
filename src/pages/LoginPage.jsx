@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import InputAuth from "../components/InputAuth";
 import { getUserLogged, login, putAccessToken } from "../utils/network-data";
@@ -112,6 +113,10 @@ const LoginPage = ({ auth }) => {
       </div>
     </div>
   );
+};
+
+LoginPage.propTypes = {
+  auth: PropTypes.func,
 };
 
 export default LoginPage;

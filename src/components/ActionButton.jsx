@@ -12,7 +12,8 @@ const ActionButton = ({ id, title }) => {
 
   const handleAction = (e) => {
     switch (e.target.getAttribute("data-action")) {
-      case ("Delete", "Hapus"):
+      case "Delete":
+      case "Hapus":
         deleteNote(id)
           .then(() => {
             alert(locale === "en" ? "delete success" : "sukses hapus catatan");
@@ -22,7 +23,8 @@ const ActionButton = ({ id, title }) => {
             alert(locale === "en" ? "delete failed" : "gagal hapus catatan");
           });
         break;
-      case ("Archive", "Arsipkan"):
+      case "Archive":
+      case "Arsipkan":
         archiveNote(id)
           .then(() => {
             alert(locale === "en" ? "note archived" : "catatan diarsipkan");
@@ -36,7 +38,8 @@ const ActionButton = ({ id, title }) => {
             );
           });
         break;
-      case ("Unarchive", "Keluarkan"):
+      case "Unarchive":
+      case "Keluarkan":
         unarchiveNote(id)
           .then(() => {
             alert(
